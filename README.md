@@ -1,3 +1,25 @@
+This Shiny tool was developed in the context of a research project in 2024. The aim of the project was to analyze the occurrence of different animal groups depending on specific parameters. The core feature of this tool is an interactive map that allows the user to investigate the occurrence of various animal species based on selected parameters.
+
+The project is specifically tailored to me, Roberto Kätker, and may cause errors when used under unforeseen conditions. Due to time constraints, I have not implemented measures to prevent all potential user errors, which is why I am providing this document to briefly explain the structure of the code and address possible issues.
+
+The main.r file serves as the initial sequence. It loads all the required packages and other files. The function.r file contains all custom functions I created, while the plot.r file includes all the plots I use. The shiny.r file contains all the code sequences for the Shiny interface. In the Shiny file, functions from plot.r and function.r are called to visualize the respective contents. However, the functions in function.r and plot.r can also be used independently of the Shiny interface, as all sequences in these files are stored as separate functions, which can be accessed individually.
+
+In the following sections, I will address individual issues and explain certain lines of code, as well as their implications.
+Visualization of data from the year 2021:
+
+When data from the year 2021 is added to Visualization I and Visualization III, the results remain unchanged at first. It’s only when all options under the filters "time of day" and "precipitation" are removed that data from 2021 is included. This behavior is due to the functionality of the filter function and the specific nature of the 2021 data. A custom filter function is defined in function.r. This function contains specific parameters for each category (temperature, time of day, month, etc.) that can be filtered and an argument for the dataset to be filtered.
+
+The filter function checks each row of the dataset to see if it contains the passed parameters. If not, the row is removed from the dataset. If no parameters are passed, filtering for that category is skipped. The data from 2021 contains no information on the time of day or precipitation and has a default temperature of -10 degrees, as this data was unfortunately not collected. If the filter is applied to the dataset, and 2021 is selected without excluding the mentioned parameters, the filter function will remove all rows that do not contain those parameters, which includes all the 2021 data. Only when no parameters are selected can the incomplete 2021 data be displayed.
+
+This is also why data is still visualized when all parameters are deselected. If no parameters are selected in a certain category, the filter function ignores that category and does not process the dataset based on it. This approach proved to be more practical while working with the tool.
+Additional error sources:
+
+A common error that occurs in Visualization I is when no year is selected. This is due to the structure of the visualization. The year selection is not only relevant to the filter function but also to the visualization itself. Depending on the selected year, a template with either 6 or 8 sectors is provided. If no year is selected, no template can be provided, and thus, no visualization can be displayed.
+
+In Visualization III, the following error can occur: "Replacement has 1 row, data has 0." This means that parameters were selected for which no individuals were observed, and therefore, no visualization can be created. This only affects the pie charts, as the bar charts are generated from a template that defaults to 0 for all possible values and is then modified based on the filtered dataset. No such standardization exists for the pie charts.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
 Das hier vorliegende Shiny-Tool wurde im Rahmen eines Forschungsprojektes im Jahr 2024 erstellt. Ziel des Projekts war es, das Vorkommen einzelner Tiergruppen in Abhängigkeit von bestimmten Parametern zu analysieren. Das Herzstück dieses Tools ist eine interaktive Karte, die es dem Nutzer ermöglicht, das Vorkommen der einzelnen Tierarten in Abhängigkeit von ausgewählten Parametern zu untersuchen.
 
 Das Projekt ist speziell auf mich, Roberto Kätker, zugeschnitten und kann unter nicht vorgesehenen Bedingungen zu Fehlern führen. Aus Zeitgründen habe ich darauf verzichtet, alle möglichen Benutzerfehler abzufangen, weshalb ich in diesem Dokument kurz die Struktur des Codes erläutere und auf mögliche Probleme eingehe.
